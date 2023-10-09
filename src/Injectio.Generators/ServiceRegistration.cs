@@ -38,7 +38,7 @@ public sealed class ServiceRegistration : IEquatable<ServiceRegistration>
 
     public EquatableArray<string> Tags { get; }
 
-    public string? ServiceKey { get; }
+    public string ServiceKey { get; }
 
     public bool Equals(ServiceRegistration other)
     {

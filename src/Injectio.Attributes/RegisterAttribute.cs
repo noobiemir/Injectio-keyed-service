@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Injectio.Attributes;
 
 /// <summary>
@@ -62,4 +64,11 @@ public abstract class RegisterAttribute : Attribute
     /// The comma delimited list of service registration tags.
     /// </value>
     public string? Tags { get; set; }
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Gets or sets the service <see cref="ServiceDescriptor.ServiceKey"/> of keyed service.
+    /// </summary>
+    public string? Key { get; set; }
+#endif
 }

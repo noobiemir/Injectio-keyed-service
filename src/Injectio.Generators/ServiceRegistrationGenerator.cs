@@ -224,6 +224,7 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator
         DuplicateStrategy? duplicateStrategy = null;
         RegistrationStrategy? registrationStrategy = null;
         var tags = new HashSet<string>();
+        string serviceKey = null;
 
         var attributeClass = attribute.AttributeClass;
         if (attributeClass is { IsGenericType: true } && attributeClass.TypeArguments.Length == attributeClass.TypeParameters.Length)
@@ -265,6 +266,9 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator
                     break;
                 case "Factory":
                     implementationFactory = value.ToString();
+                    break;
+                case "Key":
+                    serviceKey = value.ToString();
                     break;
                 case "Duplicate":
                     duplicateStrategy = ParseEnum<DuplicateStrategy>(value);
@@ -325,7 +329,8 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator
             implementationFactory,
             duplicateStrategy ?? DuplicateStrategy.Skip,
             registrationStrategy ?? RegistrationStrategy.SelfWithInterfaces,
-            tags);
+            tags,
+            serviceKey);
     }
 
     private static TEnum? ParseEnum<TEnum>(object value) where TEnum : struct

@@ -28,7 +28,8 @@ public class CodeGeneratorTests
                 factory: null,
                 duplicate: DuplicateStrategy.Skip,
                 registration: RegistrationStrategy.SelfWithInterfaces,
-                tags: Enumerable.Empty<string>()
+                tags: Enumerable.Empty<string>(),
+                serviceKey:null
             )
         };
 
@@ -54,7 +55,8 @@ public class CodeGeneratorTests
                 factory: null,
                 duplicate: DuplicateStrategy.Skip,
                 registration: RegistrationStrategy.SelfWithInterfaces,
-                tags: Enumerable.Empty<string>()
+                tags: Enumerable.Empty<string>(),
+                serviceKey:null
             )
         };
 
@@ -76,7 +78,8 @@ public class CodeGeneratorTests
                 factory: null,
                 duplicate: DuplicateStrategy.Append,
                 registration: RegistrationStrategy.SelfWithInterfaces,
-                tags: Enumerable.Empty<string>()
+                tags: Enumerable.Empty<string>(),
+                serviceKey:null
             )
         };
 
@@ -98,7 +101,8 @@ public class CodeGeneratorTests
                 factory: null,
                 duplicate: DuplicateStrategy.Replace,
                 registration: RegistrationStrategy.SelfWithInterfaces,
-                tags: Enumerable.Empty<string>()
+                tags: Enumerable.Empty<string>(),
+                serviceKey:null
             )
         };
 
@@ -120,7 +124,8 @@ public class CodeGeneratorTests
                 factory: null,
                 duplicate: DuplicateStrategy.Skip,
                 registration: RegistrationStrategy.SelfWithInterfaces,
-                tags: new[] { "Test", "Big" }
+                tags: new[] { "Test", "Big" },
+                serviceKey:null
             )
         };
 

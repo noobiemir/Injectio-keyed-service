@@ -1,7 +1,7 @@
 using Injectio.Attributes;
 using Injectio.Generators.Extensions;
 
-using Microsoft.CodeAnalysis;
+#pragma warning disable CS8604
 
 namespace Injectio.Generators;
 
@@ -164,13 +164,14 @@ public static class ServiceRegistrationWriter
         }
 
         var serviceMethod = GetServiceCollectionMethod(serviceRegistration.Duplicate);
+        var describeMethod = GetDescribeMethod(serviceRegistration.ServiceKey);
 
         foreach (var serviceType in serviceRegistration.ServiceTypes)
         {
             if (serviceType.IsNullOrWhiteSpace())
                 continue;
 
-            WriteServiceType(codeBuilder, serviceRegistration, serviceMethod, serviceType);
+            WriteServiceType(codeBuilder, serviceRegistration, serviceMethod, describeMethod, serviceType);
         }
 
         if (serviceRegistration.Tags.Count > 0)
@@ -186,6 +187,7 @@ public static class ServiceRegistrationWriter
         IndentedStringBuilder codeBuilder,
         ServiceRegistration serviceRegistration,
         string serviceMethod,
+        string describeMethod,
         string serviceType)
     {
         codeBuilder
@@ -194,12 +196,30 @@ public static class ServiceRegistrationWriter
             .AppendLine("(")
             .IncrementIndent()
             .AppendLine("serviceCollection,")
-            .AppendLine("global::Microsoft.Extensions.DependencyInjection.ServiceDescriptor.Describe(")
+            .Append("global::Microsoft.Extensions.DependencyInjection.ServiceDescriptor.")
+            .Append(describeMethod)
+            .AppendLine("(")
             .IncrementIndent()
             .Append("typeof(")
             .AppendIf("global::", !serviceType.StartsWith("global::"))
             .Append(serviceType)
             .AppendLine("),");
+
+        if (serviceRegistration.ServiceKey.HasValue())
+        {
+            var anyKey = serviceRegistration.ServiceKey == "*";
+            if (anyKey)
+            {
+                codeBuilder.AppendLine("global::Microsoft.Extensions.DependencyInjection.KeyedService.AnyKey,");
+            }
+            else
+            {
+                codeBuilder
+                    .Append("\"")
+                    .Append(serviceRegistration.ServiceKey)
+                    .AppendLine("\",");
+            }
+        }
 
         if (serviceRegistration.Factory.HasValue())
         {
@@ -250,4 +270,8 @@ public static class ServiceRegistrationWriter
         };
     }
 
+    public static string GetDescribeMethod(string serviceKey)
+    {
+        return serviceKey.HasValue() ? "DescribeKeyed" : "Describe";
+    }
 }

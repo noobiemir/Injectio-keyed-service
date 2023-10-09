@@ -11,7 +11,8 @@ public sealed class ServiceRegistration : IEquatable<ServiceRegistration>
         string factory,
         DuplicateStrategy duplicate,
         RegistrationStrategy registration,
-        IEnumerable<string> tags)
+        IEnumerable<string> tags,
+        string serviceKey)
     {
         Lifetime = lifetime;
         ImplementationType = implementationType;
@@ -20,6 +21,7 @@ public sealed class ServiceRegistration : IEquatable<ServiceRegistration>
         Duplicate = duplicate;
         Registration = registration;
         Tags = new EquatableArray<string>(tags);
+        ServiceKey = serviceKey;
     }
 
     public string Lifetime { get; }
@@ -36,6 +38,8 @@ public sealed class ServiceRegistration : IEquatable<ServiceRegistration>
 
     public EquatableArray<string> Tags { get; }
 
+    public string? ServiceKey { get; }
+
     public bool Equals(ServiceRegistration other)
     {
         if (ReferenceEquals(null, other))
@@ -49,7 +53,8 @@ public sealed class ServiceRegistration : IEquatable<ServiceRegistration>
                && Factory == other.Factory
                && Duplicate == other.Duplicate
                && Registration == other.Registration
-               && Tags.Equals(other.Tags);
+               && Tags.Equals(other.Tags)
+               && ServiceKey == other.ServiceKey;
     }
 
     public override bool Equals(object obj)
@@ -67,7 +72,8 @@ public sealed class ServiceRegistration : IEquatable<ServiceRegistration>
             Factory,
             Duplicate,
             Registration,
-            Tags);
+            Tags,
+            ServiceKey);
     }
 
     public static bool operator ==(ServiceRegistration left, ServiceRegistration right)

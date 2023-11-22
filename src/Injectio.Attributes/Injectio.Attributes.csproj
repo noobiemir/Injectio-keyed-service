@@ -7,11 +7,11 @@
     <LangVersion>Latest</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup  Condition=" '$(TargetFramework)' != 'net8.0' ">
+  <ItemGroup  Condition=" '$(TargetFramework)' != 'net8' ">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup  Condition=" '$(TargetFramework)' == 'net8.0' ">
+  <ItemGroup  Condition=" '$(TargetFramework)' == 'net8' ">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
 
